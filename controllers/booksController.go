@@ -10,6 +10,20 @@ import (
 	"github.com/gorilla/mux"
 )
 
+func GetIdInd(r *http.Request) int{
+	vars := mux.Vars(r)
+
+	id := vars["id"]
+
+	idInt, err := strconv.Atoi(id)
+
+	if err != nil{
+		panic(err.Error())
+	}
+
+	return idInt
+}
+
 func GetAllBooks(w http.ResponseWriter, r *http.Request){
 	var list []models.Book
 	database.DB.Find(&list)
@@ -27,15 +41,7 @@ func CreateBook(w http.ResponseWriter, r *http.Request){
 }
 
 func UpdateBook(w http.ResponseWriter, r *http.Request){
-	vars := mux.Vars(r)
-
-	id := vars["id"]
-
-	idInt, err := strconv.Atoi(id)
-
-	if err != nil{
-		panic(err.Error())
-	}
+	idInt := GetIdInd(r)
 
 	//decode bodyBook
 	var bookBody models.Book
@@ -68,15 +74,7 @@ func UpdateBook(w http.ResponseWriter, r *http.Request){
 }
 
 func DeleteBook(w http.ResponseWriter, r *http.Request){
-	vars := mux.Vars(r)
-
-	id := vars["id"]
-
-	idInt, err := strconv.Atoi(id)
-
-	if err != nil{
-		panic(err.Error())
-	}
+	idInt := GetIdInd(r)
 
 	var bookDelete models.Book
 	database.DB.Delete(&bookDelete, idInt)

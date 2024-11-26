@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"encoding/json"
-	"librarylabs/database"
 	"librarylabs/models"
 	"net/http"
 	"strconv"
@@ -25,8 +24,7 @@ func GetIdInd(r *http.Request) int{
 }
 
 func GetAllBooks(w http.ResponseWriter, r *http.Request){
-	var list []models.Book
-	database.DB.Find(&list)
+	list := models.GetAllBooks()
 
 	json.NewEncoder(w).Encode(list)
 }
@@ -35,47 +33,23 @@ func CreateBook(w http.ResponseWriter, r *http.Request){
 	var bookCreate models.Book
 	json.NewDecoder(r.Body).Decode(&bookCreate)
 
-	database.DB.Create(&bookCreate)
-
+	models.CreateBook(bookCreate)
 	json.NewEncoder(w).Encode(bookCreate)
 }
 
 func UpdateBook(w http.ResponseWriter, r *http.Request){
 	idInt := GetIdInd(r)
 
-	//decode bodyBook
-	var bookBody models.Book
-	json.NewDecoder(r.Body).Decode(&bookBody)
+	var bodyBook models.Book
+	json.NewDecoder(r.Body).Decode(&bodyBook)
 
-	//Find the book i want to update
-	var bookUpdate models.Book
-	database.DB.First(&bookUpdate, idInt)
+	bookUpdate := models.UpdateBook(bodyBook, idInt)
 
-	//Change atributes book
-	if bookBody.Name != "" {
-		bookUpdate.Name = bookBody.Name
-	}
-
-	if bookBody.Author != "" {
-		bookUpdate.Author = bookBody.Author
-	}
-
-	if bookBody.Description != "" {
-		bookUpdate.Description = bookBody.Description
-	}
-
-	if bookBody.Genre.String() != "" {
-		bookUpdate.Genre = bookBody.Genre
-	}
-
-	//Save new changes
-	database.DB.Save(&bookUpdate)
 	json.NewEncoder(w).Encode(bookUpdate)
 }
 
 func DeleteBook(w http.ResponseWriter, r *http.Request){
 	idInt := GetIdInd(r)
 
-	var bookDelete models.Book
-	database.DB.Delete(&bookDelete, idInt)
+	models.DeleteBook(idInt)
 }

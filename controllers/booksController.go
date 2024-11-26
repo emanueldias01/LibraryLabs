@@ -29,6 +29,14 @@ func GetAllBooks(w http.ResponseWriter, r *http.Request){
 	json.NewEncoder(w).Encode(list)
 }
 
+func GetBookById(w http.ResponseWriter, r *http.Request){
+	idInt := GetIdInd(r)
+
+	book := models.GetBookById(idInt)
+
+	json.NewEncoder(w).Encode(book)
+}
+
 func CreateBook(w http.ResponseWriter, r *http.Request){
 	var bookCreate models.Book
 	json.NewDecoder(r.Body).Decode(&bookCreate)

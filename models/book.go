@@ -46,6 +46,13 @@ func GetAllBooks() []Book{
 	return list
 }
 
+func GetBookById(id int) Book{
+	var book Book
+	database.DB.First(&book, id)
+
+	return book
+}
+
 func CreateBook(bookCreate Book){
 	database.DB.Create(&bookCreate)
 }

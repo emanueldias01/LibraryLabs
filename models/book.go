@@ -28,9 +28,9 @@ func (g Genre) String() string {
 }
 
 type Book struct {
-	Name string
-	Author string
-	Genre Genre
-	Description string
-	Avaliable bool
+	Name string `json:"name"`
+	Author string `json:"author"`
+	Genre Genre `json:"genre"`
+	Description string `json:"description"`
+	Avaliable bool `json:"avaliable"`
 }

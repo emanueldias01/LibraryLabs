@@ -37,7 +37,7 @@ type Book struct {
 	Author string `json:"author"`
 	Genre Genre `json:"genre"`
 	Description string `json:"description"`
-	Avaliable bool `json:"avaliable"`
+	Available bool `json:"available"`
 }
 
 func GetAllBooks() []Book{

@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"encoding/json"
+	"fmt"
 	"librarylabs/models"
 	"net/http"
 	"strconv"
@@ -43,6 +44,10 @@ func CreateBook(w http.ResponseWriter, r *http.Request){
 
 	models.CreateBook(bookCreate)
 	json.NewEncoder(w).Encode(bookCreate)
+
+	location := fmt.Sprint("/books/%d", bookCreate.Id)
+	w.Header().Set("Location", location)
+	w.WriteHeader(http.StatusCreated)
 }
 
 func UpdateBook(w http.ResponseWriter, r *http.Request){

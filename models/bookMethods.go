@@ -96,3 +96,11 @@ func SetBookUnavailable(id int) (Book, error){
 
 	return book,err
 }
+
+func GetBooksByGenre(genre string)[]Book{
+	var list[]Book
+
+	database.DB.Raw("SELECT * FROM books WHERE genre = ?", genre).Scan(&list)
+
+	return list
+}

@@ -100,3 +100,12 @@ func SetBookAvailable(w http.ResponseWriter, r *http.Request){
 
 	json.NewEncoder(w).Encode(book)
 }
+
+func GetBooksByGenre(w http.ResponseWriter, r *http.Request){
+	vars := mux.Vars(r)
+	genre := vars["genre"]
+
+	list := models.GetBooksByGenre(genre)
+
+	json.NewEncoder(w).Encode(list)
+}

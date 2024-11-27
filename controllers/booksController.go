@@ -109,3 +109,12 @@ func GetBooksByGenre(w http.ResponseWriter, r *http.Request){
 
 	json.NewEncoder(w).Encode(list)
 }
+
+func GetBooksByName(w http.ResponseWriter, r *http.Request){
+	vars := mux.Vars(r)
+	name := vars["name"]
+
+	list := models.GetBooksByName(name)
+
+	json.NewEncoder(w).Encode(list)
+}

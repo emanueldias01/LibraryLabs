@@ -61,3 +61,21 @@ func DeleteBook(w http.ResponseWriter, r *http.Request){
 
 	models.DeleteBook(idInt)
 }
+
+func SetBookUnavailable(w http.ResponseWriter, r *http.Request){
+	idInt := GetIdInd(r)
+
+	var book models.Book
+	book = models.SetBookUnavailable(idInt)
+
+	json.NewEncoder(w).Encode(book)
+}
+
+func SetBookAvailable(w http.ResponseWriter, r *http.Request){
+	idInt := GetIdInd(r)
+
+	var book models.Book
+	book = models.SetBookAvailable(idInt)
+
+	json.NewEncoder(w).Encode(book)
+}

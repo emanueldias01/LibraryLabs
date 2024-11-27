@@ -55,3 +55,21 @@ func DeleteBook(id int){
 	var bookDelete Book
 	database.DB.Delete(&bookDelete, id)
 }
+
+func SetBookAvailable(id int) Book{
+	var book Book
+	database.DB.Find(&book, id)
+	book.Available = true
+	database.DB.Save(&book)
+
+	return book
+}
+
+func SetBookUnavailable(id int) Book{
+	var book Book
+	database.DB.Find(&book, id)
+	book.Available = false
+	database.DB.Save(&book)
+
+	return book
+}

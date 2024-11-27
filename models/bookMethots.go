@@ -19,6 +19,7 @@ func GetBookById(id int) Book{
 }
 
 func CreateBook(bookCreate Book){
+	bookCreate.SelectGenre(bookCreate.Genre)
 	database.DB.Create(&bookCreate)
 }
 
@@ -40,8 +41,8 @@ func UpdateBook(bodyBook Book, id int) Book{
 		bookUpdate.Description = bodyBook.Description
 	}
 
-	if bodyBook.Genre.String() != "" {
-		bookUpdate.Genre = bodyBook.Genre
+	if bodyBook.Genre != "" {
+		bookUpdate.SelectGenre(bodyBook.Genre)
 	}
 
 	//Save new changes

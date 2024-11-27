@@ -64,9 +64,15 @@ func DeleteBook(w http.ResponseWriter, r *http.Request){
 
 func SetBookUnavailable(w http.ResponseWriter, r *http.Request){
 	idInt := GetIdInd(r)
+	var(
+		book models.Book
+		err error
+	)
+	book, err = models.SetBookUnavailable(idInt)
 
-	var book models.Book
-	book = models.SetBookUnavailable(idInt)
+	if err != nil{
+		panic(err.Error())
+	}
 
 	json.NewEncoder(w).Encode(book)
 }
@@ -74,8 +80,17 @@ func SetBookUnavailable(w http.ResponseWriter, r *http.Request){
 func SetBookAvailable(w http.ResponseWriter, r *http.Request){
 	idInt := GetIdInd(r)
 
-	var book models.Book
-	book = models.SetBookAvailable(idInt)
+	var(
+		book models.Book
+		err error
+	)
+
+	
+	book,err = models.SetBookAvailable(idInt)
+
+	if err != nil{
+		panic(err.Error())
+	}
 
 	json.NewEncoder(w).Encode(book)
 }

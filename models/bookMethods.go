@@ -1,6 +1,7 @@
 package models
 
 import (
+	"fmt"
 	"librarylabs/database"
 )
 
@@ -56,20 +57,42 @@ func DeleteBook(id int){
 	database.DB.Delete(&bookDelete, id)
 }
 
-func SetBookAvailable(id int) Book{
-	var book Book
-	database.DB.Find(&book, id)
-	book.Available = true
-	database.DB.Save(&book)
+func SetBookAvailable(id int) (Book, error){
 
-	return book
+	var(
+		book Book
+		err error
+	)
+
+	database.DB.Find(&book, id)
+
+	if !book.Available{
+		book.Available = true
+		database.DB.Save(&book)
+	}else{
+		err = fmt.Errorf("This book is already Avaliable")
+	}
+
+	
+
+	return book, err
 }
 
-func SetBookUnavailable(id int) Book{
-	var book Book
+func SetBookUnavailable(id int) (Book, error){
+	var(
+		book Book
+		err error
+	)
 	database.DB.Find(&book, id)
-	book.Available = false
-	database.DB.Save(&book)
 
-	return book
+	if book.Available{
+		book.Available = false
+		database.DB.Save(&book)
+	}else{
+		err = fmt.Errorf("This book is already Unavailable")
+	}
+	
+	
+
+	return book,err
 }

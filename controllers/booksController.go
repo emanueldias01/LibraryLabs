@@ -45,7 +45,7 @@ func CreateBook(w http.ResponseWriter, r *http.Request){
 	models.CreateBook(bookCreate)
 	json.NewEncoder(w).Encode(bookCreate)
 
-	location := fmt.Sprint("/books/%d", bookCreate.Id)
+	location := fmt.Sprintf("/books/%d", bookCreate.Id)
 	w.Header().Set("Location", location)
 	w.WriteHeader(http.StatusCreated)
 }

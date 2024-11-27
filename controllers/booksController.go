@@ -71,7 +71,7 @@ func SetBookUnavailable(w http.ResponseWriter, r *http.Request){
 	book, err = models.SetBookUnavailable(idInt)
 
 	if err != nil{
-		panic(err.Error())
+		http.Error(w, err.Error(), http.StatusConflict)
 	}
 
 	json.NewEncoder(w).Encode(book)
@@ -89,7 +89,7 @@ func SetBookAvailable(w http.ResponseWriter, r *http.Request){
 	book,err = models.SetBookAvailable(idInt)
 
 	if err != nil{
-		panic(err.Error())
+		http.Error(w, err.Error(), http.StatusConflict)
 	}
 
 	json.NewEncoder(w).Encode(book)

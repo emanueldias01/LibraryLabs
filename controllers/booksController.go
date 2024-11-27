@@ -60,6 +60,7 @@ func DeleteBook(w http.ResponseWriter, r *http.Request){
 	idInt := GetIdInd(r)
 
 	models.DeleteBook(idInt)
+	w.WriteHeader(http.StatusNoContent)
 }
 
 func SetBookUnavailable(w http.ResponseWriter, r *http.Request){

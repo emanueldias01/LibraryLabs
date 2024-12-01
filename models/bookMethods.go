@@ -100,7 +100,7 @@ func SetBookUnavailable(id int) (Book, error){
 func GetBooksByGenre(genre string)[]Book{
 	var list[]Book
 
-	database.DB.Raw("SELECT * FROM books WHERE genre = ?", genre).Scan(&list)
+	database.DB.Where(Book{Genre: genre}).Find(&list)
 
 	return list
 }

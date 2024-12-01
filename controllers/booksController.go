@@ -62,7 +62,12 @@ func UpdateBook(w http.ResponseWriter, r *http.Request){
 
 	json.NewDecoder(r.Body).Decode(&bodyBook)
 
-	var bookUpdate models.Book = models.UpdateBook(bodyBook, idInt)
+	bookUpdate, err := models.UpdateBook(bodyBook, idInt)
+
+	if err != nil{
+		http.Error(w, err.Error(), http.StatusNotFound)
+		return
+	}
 
 	json.NewEncoder(w).Encode(bookUpdate)
 }

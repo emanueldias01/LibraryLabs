@@ -31,17 +31,24 @@ func CreateBook(bookCreate Book){
 	database.DB.Create(&bookCreate)
 }
 
-func UpdateBook(bodyBook Book, id int) Book{
+func UpdateBook(bodyBook Book, id int) (Book, error){
 	
-	var book Book
+	var (
+		book Book
+		err error
+	)
 
 	database.DB.First(&book, id)
+
+	if book.Id == 0{
+		err = fmt.Errorf("Book not found")
+	}
 
 	database.DB.Model(&book).UpdateColumns(bodyBook)
 
 
 	database.DB.First(&book, id)
-	return book
+	return book, err
 }
 
 func DeleteBook(id int){

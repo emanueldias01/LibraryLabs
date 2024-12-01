@@ -33,7 +33,12 @@ func GetAllBooks(w http.ResponseWriter, r *http.Request){
 func GetBookById(w http.ResponseWriter, r *http.Request){
 	idInt := GetIdInd(r)
 
-	book := models.GetBookById(idInt)
+	book, err := models.GetBookById(idInt)
+
+	if err != nil{
+		http.Error(w, err.Error(), http.StatusNotFound)
+		return
+	}
 
 	json.NewEncoder(w).Encode(book)
 }

@@ -12,11 +12,18 @@ func GetAllBooks() []Book{
 	return list
 }
 
-func GetBookById(id int) Book{
-	var book Book
+func GetBookById(id int) (Book, error){
+	var(
+		book Book
+		err error
+	)
 	database.DB.First(&book, id)
 
-	return book
+	if book.Id == 0{
+		err = fmt.Errorf("Book not found")
+	}
+
+	return book, err
 }
 
 func CreateBook(bookCreate Book){

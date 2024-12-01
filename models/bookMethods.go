@@ -108,7 +108,7 @@ func GetBooksByGenre(genre string)[]Book{
 func GetBooksByName(name string)[]Book{
 	var list[]Book
 
-	database.DB.Raw("SELECT * FROM books WHERE name LIKE ?", "%"+name+"%").Scan(&list)
+	database.DB.Where(&Book{Name: name}).Find(&list)
 
 	return list
 }

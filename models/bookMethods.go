@@ -25,31 +25,16 @@ func CreateBook(bookCreate Book){
 }
 
 func UpdateBook(bodyBook Book, id int) Book{
-	//Find the book i want to update
-	var bookUpdate Book
-	database.DB.First(&bookUpdate, id)
+	
+	var book Book
 
-	//Change atributes book
-	if bodyBook.Name != "" {
-		bookUpdate.Name = bodyBook.Name
-	}
+	database.DB.First(&book, id)
 
-	if bodyBook.Author != "" {
-		bookUpdate.Author = bodyBook.Author
-	}
+	database.DB.Model(&book).UpdateColumns(bodyBook)
 
-	if bodyBook.Description != "" {
-		bookUpdate.Description = bodyBook.Description
-	}
 
-	if bodyBook.Genre != "" {
-		bookUpdate.SelectGenre(bodyBook.Genre)
-	}
-
-	//Save new changes
-	database.DB.Save(&bookUpdate)
-
-	return bookUpdate
+	database.DB.First(&book, id)
+	return book
 }
 
 func DeleteBook(id int){

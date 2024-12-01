@@ -54,9 +54,10 @@ func UpdateBook(w http.ResponseWriter, r *http.Request){
 	idInt := GetIdInd(r)
 
 	var bodyBook models.Book
+
 	json.NewDecoder(r.Body).Decode(&bodyBook)
 
-	bookUpdate := models.UpdateBook(bodyBook, idInt)
+	var bookUpdate models.Book = models.UpdateBook(bodyBook, idInt)
 
 	json.NewEncoder(w).Encode(bookUpdate)
 }

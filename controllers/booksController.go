@@ -78,7 +78,15 @@ func SetBookUnavailable(w http.ResponseWriter, r *http.Request){
 	book, err = models.SetBookUnavailable(idInt)
 
 	if err != nil{
-		http.Error(w, err.Error(), http.StatusConflict)
+		if(err.Error() == "Book not found"){
+			http.Error(w, err.Error(), http.StatusNotFound)
+			return
+		}
+		if(err.Error() == "This book is already Unavailable"){
+			http.Error(w, err.Error(), http.StatusConflict)
+			return
+		}
+		
 	}
 
 	json.NewEncoder(w).Encode(book)
@@ -96,7 +104,15 @@ func SetBookAvailable(w http.ResponseWriter, r *http.Request){
 	book,err = models.SetBookAvailable(idInt)
 
 	if err != nil{
-		http.Error(w, err.Error(), http.StatusConflict)
+		if(err.Error() == "Book not found"){
+			http.Error(w, err.Error(), http.StatusNotFound)
+			return
+		}
+		if(err.Error() == "This book is already Unavailable"){
+			http.Error(w, err.Error(), http.StatusConflict)
+			return
+		}
+		
 	}
 
 	json.NewEncoder(w).Encode(book)

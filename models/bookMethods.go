@@ -51,6 +51,10 @@ func SetBookAvailable(id int) (Book, error){
 
 	database.DB.Find(&book, id)
 
+	if book.Id == 0{
+		err = fmt.Errorf("Book not found")
+	}
+
 	if !book.Available{
 		book.Available = true
 		database.DB.Save(&book)
@@ -70,13 +74,17 @@ func SetBookUnavailable(id int) (Book, error){
 	)
 	database.DB.Find(&book, id)
 
+	if book.Id == 0{
+		err = fmt.Errorf("Book not found")
+	}
+
 	if book.Available{
 		book.Available = false
 		database.DB.Save(&book)
-	}else{
+	}
+	if !book.Available && book.Id != 0{
 		err = fmt.Errorf("This book is already Unavailable")
 	}
-	
 	
 
 	return book,err

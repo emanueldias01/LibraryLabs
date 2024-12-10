@@ -27,12 +27,12 @@ func GetBookById(id int) (Book, error){
 }
 
 func CreateBook(bookCreate Book){
+	ValidateFields(&bookCreate)
 	bookCreate.SelectGenre(bookCreate.Genre)
 	database.DB.Create(&bookCreate)
 }
 
 func UpdateBook(bodyBook Book, id int) (Book, error){
-	
 	var (
 		book Book
 		err error

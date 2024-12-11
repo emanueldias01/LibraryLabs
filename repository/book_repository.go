@@ -13,8 +13,14 @@ func Find(b *models.Book,id int){
 	database.DB.First(&b, id)
 }
 
-func Update(br models.Book, bb models.Book){
-	database.DB.Model(&br).UpdateColumns(bb)
+func ListAll() []models.Book{
+	var list []models.Book
+	database.DB.Find(&list)
+	return list
+}
+
+func Update(bref models.Book, bbody models.Book){
+	database.DB.Model(&bref).UpdateColumns(bbody)
 }
 
 func Delete(id int){

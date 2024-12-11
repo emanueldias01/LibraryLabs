@@ -16,10 +16,7 @@ func validateFields(b *models.Book) error{
 }
 
 func GetAllBooks() []models.Book{
-	var list []models.Book
-	database.DB.Find(&list)
-
-	return list
+	return repository.ListAll()
 }
 
 func GetBookById(id int) (models.Book, error){

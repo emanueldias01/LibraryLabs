@@ -116,12 +116,13 @@ func SetBookAvailable(w http.ResponseWriter, r *http.Request){
 	
 	book,err = service.SetBookAvailable(idInt)
 
+
 	if err != nil{
 		if(err.Error() == "Book not found"){
 			http.Error(w, err.Error(), http.StatusNotFound)
 			return
 		}
-		if(err.Error() == "This book is already Unavailable"){
+		if(err.Error() == "This book is already Avaliable"){
 			http.Error(w, err.Error(), http.StatusConflict)
 			return
 		}

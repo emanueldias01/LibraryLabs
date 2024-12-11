@@ -72,6 +72,7 @@ func SetBookAvailable(id int) (models.Book, error){
 
 	if book.Id == 0{
 		err = fmt.Errorf("Book not found")
+		return book, err
 	}
 
 	if !book.Available{
@@ -80,8 +81,6 @@ func SetBookAvailable(id int) (models.Book, error){
 	}else{
 		err = fmt.Errorf("This book is already Avaliable")
 	}
-
-	
 
 	return book, err
 }
@@ -100,6 +99,7 @@ func SetBookUnavailable(id int) (models.Book, error){
 	if book.Available{
 		book.Available = false
 		repository.Save(&book)
+		return book, err
 	}
 	if !book.Available && book.Id != 0{
 		err = fmt.Errorf("This book is already Unavailable")

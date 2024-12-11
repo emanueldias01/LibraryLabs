@@ -5,7 +5,15 @@ import (
 	"librarylabs/database"
 	"librarylabs/models"
 	"librarylabs/repository"
+	"gopkg.in/validator.v2"
 )
+
+func validateFields(b *models.Book) error{
+	if err := validator.Validate(b); err != nil{
+		return err
+	}
+	return nil
+}
 
 func GetAllBooks() []models.Book{
 	var list []models.Book
@@ -29,7 +37,7 @@ func GetBookById(id int) (models.Book, error){
 }
 
 func CreateBook(bookCreate models.Book) error{
-	if err := models.ValidateFields(&bookCreate); err != nil{
+	if err := validateFields(&bookCreate); err != nil{
 		return err
 	}
 	bookCreate.SelectGenre(bookCreate.Genre)

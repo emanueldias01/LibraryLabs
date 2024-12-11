@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"librarylabs/models"
+	"librarylabs/service"
 	"net/http"
 	"strconv"
 
@@ -25,7 +26,7 @@ func GetIdInd(r *http.Request) int{
 }
 
 func GetAllBooks(w http.ResponseWriter, r *http.Request){
-	list := models.GetAllBooks()
+	list := service.GetAllBooks()
 
 	json.NewEncoder(w).Encode(list)
 }
@@ -33,7 +34,7 @@ func GetAllBooks(w http.ResponseWriter, r *http.Request){
 func GetBookById(w http.ResponseWriter, r *http.Request){
 	idInt := GetIdInd(r)
 
-	book, err := models.GetBookById(idInt)
+	book, err := service.GetBookById(idInt)
 
 	if err != nil{
 		http.Error(w, err.Error(), http.StatusNotFound)
@@ -47,7 +48,7 @@ func CreateBook(w http.ResponseWriter, r *http.Request){
 	var bookCreate models.Book
 	json.NewDecoder(r.Body).Decode(&bookCreate)
 
-	if err := models.CreateBook(bookCreate); err != nil{
+	if err := service.CreateBook(bookCreate); err != nil{
 		http.Error(w, err.Error(), http.StatusBadRequest)
 	}
 	json.NewEncoder(w).Encode(bookCreate)
@@ -64,7 +65,7 @@ func UpdateBook(w http.ResponseWriter, r *http.Request){
 
 	json.NewDecoder(r.Body).Decode(&bodyBook)
 
-	bookUpdate, err := models.UpdateBook(bodyBook, idInt)
+	bookUpdate, err := service.UpdateBook(bodyBook, idInt)
 
 	if err != nil{
 		http.Error(w, err.Error(), http.StatusNotFound)
@@ -77,7 +78,7 @@ func UpdateBook(w http.ResponseWriter, r *http.Request){
 func DeleteBook(w http.ResponseWriter, r *http.Request){
 	idInt := GetIdInd(r)
 
-	models.DeleteBook(idInt)
+	service.DeleteBook(idInt)
 	w.WriteHeader(http.StatusNoContent)
 }
 
@@ -87,7 +88,7 @@ func SetBookUnavailable(w http.ResponseWriter, r *http.Request){
 		book models.Book
 		err error
 	)
-	book, err = models.SetBookUnavailable(idInt)
+	book, err = service.SetBookUnavailable(idInt)
 
 	if err != nil{
 		if(err.Error() == "Book not found"){
@@ -113,7 +114,7 @@ func SetBookAvailable(w http.ResponseWriter, r *http.Request){
 	)
 
 	
-	book,err = models.SetBookAvailable(idInt)
+	book,err = service.SetBookAvailable(idInt)
 
 	if err != nil{
 		if(err.Error() == "Book not found"){
@@ -134,7 +135,7 @@ func GetBooksByGenre(w http.ResponseWriter, r *http.Request){
 	vars := mux.Vars(r)
 	genre := vars["genre"]
 
-	list := models.GetBooksByGenre(genre)
+	list := service.GetBooksByGenre(genre)
 
 	json.NewEncoder(w).Encode(list)
 }
@@ -143,7 +144,7 @@ func GetBooksByName(w http.ResponseWriter, r *http.Request){
 	vars := mux.Vars(r)
 	name := vars["name"]
 
-	list := models.GetBooksByName(name)
+	list := service.GetBooksByName(name)
 
 	json.NewEncoder(w).Encode(list)
 }

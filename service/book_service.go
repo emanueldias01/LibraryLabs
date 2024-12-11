@@ -110,20 +110,13 @@ func SetBookUnavailable(id int) (models.Book, error){
 		err = fmt.Errorf("This book is already Unavailable")
 	}
 	
-
 	return book,err
 }
 
 func GetBooksByGenre(genre string)[]models.Book{
-	var list[]models.Book
-
-	repository.FindByGenre(&list, genre)
-
-	return list
+	return repository.FindByGenre(genre)
 }
 
 func GetBooksByName(name string)[]models.Book{
-	var list[]models.Book
-	repository.FindByName(&list, name)
-	return list
+	return repository.FindByName(name)
 }

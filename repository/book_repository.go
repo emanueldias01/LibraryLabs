@@ -32,10 +32,14 @@ func Save(b *models.Book){
 	database.DB.Save(&b)
 }
 
-func FindByGenre(l *[]models.Book, genre string){
+func FindByGenre(genre string) []models.Book{
+	var l []models.Book
 	database.DB.Where(&models.Book{Genre: genre}).Find(&l)
+	return l
 }
 
-func FindByName(l *[]models.Book, name string){
+func FindByName(name string) []models.Book{
+	var l []models.Book
 	database.DB.Raw("SELECT * FROM books WHERE name LIKE ?", "%"+name+"%").Scan(&l)
+	return l
 }

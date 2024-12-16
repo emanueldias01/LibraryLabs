@@ -33,14 +33,13 @@ func GetBookById(id int) (models.Book, error){
 	return book, err
 }
 
-func CreateBook(bookCreate models.Book) error{
-	if err := validateFields(&bookCreate); err != nil{
-		return err
-	}
+func CreateBook(bookCreate models.Book) (models.Book, error){
+	err := validateFields(&bookCreate)
+	
 	bookCreate.SelectGenre(bookCreate.Genre)
 	repository.Create(&bookCreate)
 
-	return nil
+	return bookCreate, err
 }
 
 func UpdateBook(bodyBook models.Book, id int) (models.Book, error){

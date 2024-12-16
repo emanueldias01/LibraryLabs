@@ -48,10 +48,12 @@ func CreateBook(w http.ResponseWriter, r *http.Request){
 	var bookCreate models.Book
 	json.NewDecoder(r.Body).Decode(&bookCreate)
 
-	if err := service.CreateBook(bookCreate); err != nil{
+	book, err := service.CreateBook(bookCreate)
+	
+	if err != nil{
 		http.Error(w, err.Error(), http.StatusBadRequest)
 	}
-	json.NewEncoder(w).Encode(bookCreate)
+	json.NewEncoder(w).Encode(book)
 
 	location := fmt.Sprintf("/books/%d", bookCreate.Id)
 	w.Header().Set("Location", location)

@@ -4,16 +4,24 @@ services:
   db:
     image: postgres:13
     container_name: librarylabs_db
+    hostname: postgres
     environment:
       - POSTGRES_USER=root
       - POSTGRES_PASSWORD=root
       - POSTGRES_DB=LibraryLabs
     ports:
-      - "5432:5432"
+      - 5432:5432
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./migrations/init.sql:/docker-entrypoint-initdb.d/init.sql
     restart: always
+  
+  app:
+    build : .
+    ports:
+      - 8000:8000
+    depends_on:
+      - db
 
 volumes:
   postgres_data:

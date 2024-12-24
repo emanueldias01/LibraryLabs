@@ -12,7 +12,7 @@ var(
 )
 
 func ConnectDB(){
-	strConn := "host=localhost user=root password=root dbname=LibraryLabs port=5432 sslmode=disable"
+	strConn := "host=postgres user=root password=root dbname=LibraryLabs port=5432 sslmode=disable"
 	DB, err = gorm.Open(postgres.Open(strConn))
 
 	if err != nil{

@@ -15,3 +15,15 @@ func CreateUser(u auth.User)(error){
 
 	return nil
 }
+
+func LoginUser(u auth.User) error{
+	u.Password = auth.PasswordEncode(u.Password)
+
+	err := repository.ComparatorUser(u)
+
+	if err != nil{
+		return err
+	}
+
+	return nil
+}

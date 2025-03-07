@@ -16,14 +16,7 @@ services:
       - ./migrations/init.sql:/docker-entrypoint-initdb.d/init.sql
     restart: always
   
-  app:
-    build :
-      context: .
-      target: prod
-    ports:
-      - 8000:8000
-    depends_on:
-      - db
+
 
 volumes:
   postgres_data:

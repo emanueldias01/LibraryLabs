@@ -20,5 +20,8 @@ func HandleRequest(){
 	r.HandleFunc("/books/delete/{id}", controllers.DeleteBook).Methods("DELETE")
 	r.HandleFunc("/books/unavailable/{id}", controllers.SetBookUnavailable).Methods("PUT")
 	r.HandleFunc("/books/available/{id}", controllers.SetBookAvailable).Methods("PUT")
+	r.HandleFunc("/user", controllers.CreateUser).Methods("POST")
+	r.HandleFunc("/user/login", controllers.Login).Methods("POST")
+
 	http.ListenAndServe(":8000", r)
 }

@@ -1,8 +1,9 @@
-FROM golang:1.23.2-alpine as build
+FROM golang:1.23.2-alpine AS build
 
 WORKDIR /app
 
 COPY ./models /app/models/
+COPY ./auth /app/auth/
 COPY ./database /app/database/
 COPY ./migrations /app/migrations/
 COPY ./repository /app/repository/
@@ -15,7 +16,7 @@ COPY ./go.sum /app/
 
 RUN go build main.go
 
-FROM alpine:latest as prod
+FROM alpine:latest AS prod
 
 EXPOSE 8000
 

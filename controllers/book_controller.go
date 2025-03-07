@@ -41,6 +41,13 @@ func GetAllBooks(w http.ResponseWriter, r *http.Request){
 }
 
 func GetBookById(w http.ResponseWriter, r *http.Request){
+
+	token := GetToken(w, r)
+
+	if _,err := auth.VerifyToken(token); err != nil{
+		http.Error(w, err.Error(), http.StatusUnauthorized)
+	}
+
 	idInt := GetIdInd(r)
 
 	book, err := service.GetBookById(idInt)
@@ -54,6 +61,13 @@ func GetBookById(w http.ResponseWriter, r *http.Request){
 }
 
 func CreateBook(w http.ResponseWriter, r *http.Request){
+
+	token := GetToken(w, r)
+
+	if _,err := auth.VerifyToken(token); err != nil{
+		http.Error(w, err.Error(), http.StatusUnauthorized)
+	}
+
 	var bookCreate models.Book
 	json.NewDecoder(r.Body).Decode(&bookCreate)
 
@@ -70,6 +84,13 @@ func CreateBook(w http.ResponseWriter, r *http.Request){
 }
 
 func UpdateBook(w http.ResponseWriter, r *http.Request){
+
+	token := GetToken(w, r)
+
+	if _,err := auth.VerifyToken(token); err != nil{
+		http.Error(w, err.Error(), http.StatusUnauthorized)
+	}
+
 	idInt := GetIdInd(r)
 
 	var bodyBook models.Book
@@ -87,6 +108,13 @@ func UpdateBook(w http.ResponseWriter, r *http.Request){
 }
 
 func DeleteBook(w http.ResponseWriter, r *http.Request){
+
+	token := GetToken(w, r)
+
+	if _,err := auth.VerifyToken(token); err != nil{
+		http.Error(w, err.Error(), http.StatusUnauthorized)
+	}
+
 	idInt := GetIdInd(r)
 
 	service.DeleteBook(idInt)
@@ -94,6 +122,13 @@ func DeleteBook(w http.ResponseWriter, r *http.Request){
 }
 
 func SetBookUnavailable(w http.ResponseWriter, r *http.Request){
+
+	token := GetToken(w, r)
+
+	if _,err := auth.VerifyToken(token); err != nil{
+		http.Error(w, err.Error(), http.StatusUnauthorized)
+	}
+
 	idInt := GetIdInd(r)
 	var(
 		book models.Book
@@ -117,6 +152,13 @@ func SetBookUnavailable(w http.ResponseWriter, r *http.Request){
 }
 
 func SetBookAvailable(w http.ResponseWriter, r *http.Request){
+
+	token := GetToken(w, r)
+
+	if _,err := auth.VerifyToken(token); err != nil{
+		http.Error(w, err.Error(), http.StatusUnauthorized)
+	}
+
 	idInt := GetIdInd(r)
 
 	var(
@@ -144,6 +186,13 @@ func SetBookAvailable(w http.ResponseWriter, r *http.Request){
 }
 
 func GetBooksByGenre(w http.ResponseWriter, r *http.Request){
+
+	token := GetToken(w, r)
+
+	if _,err := auth.VerifyToken(token); err != nil{
+		http.Error(w, err.Error(), http.StatusUnauthorized)
+	}
+
 	vars := mux.Vars(r)
 	genre := vars["genre"]
 
@@ -153,6 +202,13 @@ func GetBooksByGenre(w http.ResponseWriter, r *http.Request){
 }
 
 func GetBooksByName(w http.ResponseWriter, r *http.Request){
+
+	token := GetToken(w, r)
+
+	if _,err := auth.VerifyToken(token); err != nil{
+		http.Error(w, err.Error(), http.StatusUnauthorized)
+	}
+
 	vars := mux.Vars(r)
 	name := vars["name"]
 

@@ -1,7 +1,7 @@
 package auth
 
 type User struct {
-	Id uint
-	Login string
-	Password string
+	Id uint `json:"id"`
+	Login string `json:"login"`
+	Password string `json:"password"`
 }

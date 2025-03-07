@@ -3,10 +3,12 @@ package controllers
 import (
 	"encoding/json"
 	"fmt"
+	"librarylabs/auth"
 	"librarylabs/models"
 	"librarylabs/service"
 	"net/http"
 	"strconv"
+	"strings"
 
 	"github.com/gorilla/mux"
 )
@@ -26,6 +28,13 @@ func GetIdInd(r *http.Request) int{
 }
 
 func GetAllBooks(w http.ResponseWriter, r *http.Request){
+
+	token := GetToken(w, r)
+
+	if _,err := auth.VerifyToken(token); err != nil{
+		http.Error(w, err.Error(), http.StatusUnauthorized)
+	}
+
 	list := service.GetAllBooks()
 
 	json.NewEncoder(w).Encode(list)
@@ -150,4 +159,22 @@ func GetBooksByName(w http.ResponseWriter, r *http.Request){
 	list := service.GetBooksByName(name)
 
 	json.NewEncoder(w).Encode(list)
+}
+
+func GetToken(w http.ResponseWriter, r *http.Request) string{
+	authHeader := r.Header.Get("Authorization") // Obtém o cabeçalho Authorization
+
+    if authHeader == "" {
+        http.Error(w, "Authorization header missing", http.StatusUnauthorized)
+        return ""
+    }
+
+    // Verifica se o token está no formato "Bearer <token>"
+    parts := strings.Split(authHeader, " ")
+    if len(parts) != 2 || parts[0] != "Bearer" {
+        http.Error(w, "Invalid Authorization header format", http.StatusUnauthorized)
+        return ""
+    }
+
+    return parts[1]
 }

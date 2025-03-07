@@ -22,7 +22,7 @@ func LoginUser(u auth.User) (string, error){
 	err := repository.ComparatorUser(u)
 
 	if err != nil{
-		return "",err
+		return  "",err
 	}
 
 	token, err := u.GenerateToken()

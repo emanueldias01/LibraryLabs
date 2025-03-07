@@ -24,13 +24,15 @@ func Login(w http.ResponseWriter, r *http.Request){
 	var user auth.User
 	json.NewDecoder(r.Body).Decode(&user)
 
-	err := service.LoginUser(user)
+	token, err := service.LoginUser(user)
 
 	if err != nil{
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
 
+	
 	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(token)
 }
 

@@ -52,7 +52,6 @@ func VerifyToken(tokenVerify string) (User, error) {
         return User{}, errors.New("invalid token: Id is missing or incorrect type")
     }
 
-    // Verifique se "login" e "password" existem e são strings
     login, ok := claims["login"].(string)
     if !ok || login == "" {
         return User{}, errors.New("invalid token: login is missing or incorrect type")

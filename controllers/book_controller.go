@@ -13,7 +13,7 @@ import (
 	"github.com/gorilla/mux"
 )
 
-func GetIdInd(r *http.Request) int{
+func getIdInd(r *http.Request) int{
 	vars := mux.Vars(r)
 
 	id := vars["id"]
@@ -29,7 +29,7 @@ func GetIdInd(r *http.Request) int{
 
 func GetAllBooks(w http.ResponseWriter, r *http.Request){
 
-	token := GetToken(w, r)
+	token := getToken(w, r)
 
 	if _,err := auth.VerifyToken(token); err != nil{
 		http.Error(w, err.Error(), http.StatusUnauthorized)
@@ -42,13 +42,13 @@ func GetAllBooks(w http.ResponseWriter, r *http.Request){
 
 func GetBookById(w http.ResponseWriter, r *http.Request){
 
-	token := GetToken(w, r)
+	token := getToken(w, r)
 
 	if _,err := auth.VerifyToken(token); err != nil{
 		http.Error(w, err.Error(), http.StatusUnauthorized)
 	}
 
-	idInt := GetIdInd(r)
+	idInt := getIdInd(r)
 
 	book, err := service.GetBookById(idInt)
 
@@ -62,7 +62,7 @@ func GetBookById(w http.ResponseWriter, r *http.Request){
 
 func CreateBook(w http.ResponseWriter, r *http.Request){
 
-	token := GetToken(w, r)
+	token := getToken(w, r)
 
 	if _,err := auth.VerifyToken(token); err != nil{
 		http.Error(w, err.Error(), http.StatusUnauthorized)
@@ -85,13 +85,13 @@ func CreateBook(w http.ResponseWriter, r *http.Request){
 
 func UpdateBook(w http.ResponseWriter, r *http.Request){
 
-	token := GetToken(w, r)
+	token := getToken(w, r)
 
 	if _,err := auth.VerifyToken(token); err != nil{
 		http.Error(w, err.Error(), http.StatusUnauthorized)
 	}
 
-	idInt := GetIdInd(r)
+	idInt := getIdInd(r)
 
 	var bodyBook models.Book
 
@@ -109,13 +109,13 @@ func UpdateBook(w http.ResponseWriter, r *http.Request){
 
 func DeleteBook(w http.ResponseWriter, r *http.Request){
 
-	token := GetToken(w, r)
+	token := getToken(w, r)
 
 	if _,err := auth.VerifyToken(token); err != nil{
 		http.Error(w, err.Error(), http.StatusUnauthorized)
 	}
 
-	idInt := GetIdInd(r)
+	idInt := getIdInd(r)
 
 	service.DeleteBook(idInt)
 	w.WriteHeader(http.StatusNoContent)
@@ -123,13 +123,13 @@ func DeleteBook(w http.ResponseWriter, r *http.Request){
 
 func SetBookUnavailable(w http.ResponseWriter, r *http.Request){
 
-	token := GetToken(w, r)
+	token := getToken(w, r)
 
 	if _,err := auth.VerifyToken(token); err != nil{
 		http.Error(w, err.Error(), http.StatusUnauthorized)
 	}
 
-	idInt := GetIdInd(r)
+	idInt := getIdInd(r)
 	var(
 		book models.Book
 		err error
@@ -153,13 +153,13 @@ func SetBookUnavailable(w http.ResponseWriter, r *http.Request){
 
 func SetBookAvailable(w http.ResponseWriter, r *http.Request){
 
-	token := GetToken(w, r)
+	token := getToken(w, r)
 
 	if _,err := auth.VerifyToken(token); err != nil{
 		http.Error(w, err.Error(), http.StatusUnauthorized)
 	}
 
-	idInt := GetIdInd(r)
+	idInt := getIdInd(r)
 
 	var(
 		book models.Book
@@ -187,7 +187,7 @@ func SetBookAvailable(w http.ResponseWriter, r *http.Request){
 
 func GetBooksByGenre(w http.ResponseWriter, r *http.Request){
 
-	token := GetToken(w, r)
+	token := getToken(w, r)
 
 	if _,err := auth.VerifyToken(token); err != nil{
 		http.Error(w, err.Error(), http.StatusUnauthorized)
@@ -203,7 +203,7 @@ func GetBooksByGenre(w http.ResponseWriter, r *http.Request){
 
 func GetBooksByName(w http.ResponseWriter, r *http.Request){
 
-	token := GetToken(w, r)
+	token := getToken(w, r)
 
 	if _,err := auth.VerifyToken(token); err != nil{
 		http.Error(w, err.Error(), http.StatusUnauthorized)
@@ -217,7 +217,7 @@ func GetBooksByName(w http.ResponseWriter, r *http.Request){
 	json.NewEncoder(w).Encode(list)
 }
 
-func GetToken(w http.ResponseWriter, r *http.Request) string{
+func getToken(w http.ResponseWriter, r *http.Request) string{
 	authHeader := r.Header.Get("Authorization") // Obtém o cabeçalho Authorization
 
     if authHeader == "" {

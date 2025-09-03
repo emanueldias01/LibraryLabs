@@ -71,7 +71,7 @@ func GetBookById(id int)(*model.Book, error){
 	return &b, nil
 }
 
-func CreateBook(b model.Book)(*model.Book, error){
+func CreateBook(b *model.Book)(*model.Book, error){
 	conn, err := db.OpenConnection()
 
 	if err != nil{
@@ -88,10 +88,10 @@ func CreateBook(b model.Book)(*model.Book, error){
 		return nil, err
 	}
 
-	return &b, nil
+	return b, nil
 }
 
-func UpdateBook(b model.Book) error{
+func UpdateBook(b *model.Book) error{
 	conn, err := db.OpenConnection()
 	if err != nil {
 		return fmt.Errorf("failed to connect database: %w", err)
@@ -116,7 +116,7 @@ func UpdateBook(b model.Book) error{
 	return nil
 }
 
-func DeleteBook(id uint) error {
+func DeleteBook(id *int) error {
 	conn, err := db.OpenConnection()
 	if err != nil {
 		return fmt.Errorf("failed to connect database: %w", err)

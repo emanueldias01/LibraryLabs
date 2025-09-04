@@ -46,8 +46,15 @@ func CreateBook(dtoReq *dto.BookRequest)(*dto.BookResponse, error){
 }
 
 func UpdateBook(dtoReq dto.BookRequest, id int)(*dto.BookResponse, error){
-	b := model.Book{uint(id), dtoReq.Name, dtoReq.Author, dtoReq.YearPublication, dtoReq.Publisher, dtoReq.PagesNumber, dtoReq.Language}
-	err := repository.UpdateBook(&b)
+	b, err := repository.GetBookById(id)
+
+	if err != nil{
+		return nil, err
+	}
+
+	b.UpdateInfo(dtoReq)
+
+	err = repository.UpdateBook(b)
 
 	if err != nil{
 		return nil, err

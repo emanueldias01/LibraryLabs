@@ -1,17 +1,21 @@
 package main
 
 import (
-	"encoding/json"
-	"net/http"
+	"log"
+
+	"github.com/emanueldias01/LibraryLabs/db"
+	"github.com/emanueldias01/LibraryLabs/router"
 )
 
 func main() {
-	http.HandleFunc("/ping", func(w http.ResponseWriter, r *http.Request){
-		if r.Method == http.MethodGet{
-			w.Header().Set("Content-type", "application/json")
-			json.NewEncoder(w).Encode(map[string]string{"message" : "pong"})
-		}
-	})
+	conn, err := db.OpenConnection()
 
-	http.ListenAndServe(":8000", nil)
+	if err != nil{
+		log.Fatal("Erro to open connection to db")
+	}
+
+
+	db.RunMigrations(conn)
+
+	router.InitializeRoutes()
 }
